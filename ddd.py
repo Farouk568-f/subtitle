@@ -62,14 +62,11 @@ def get_subtitles():
     resp = requests.get(url, headers=HEADERS)
 
     try:
-        # محاولة قراءة الاستجابة كـ JSON
         data = resp.json()
-    except requests.exceptions.JSONDecodeError:
-        # إذا فشل، اقرأها كنص عادي
+    except Exception:
         data = resp.text
 
-    # إرجاع الرابط الأصلي، حالة الاستجابة، والبيانات
-    return jsonify({"requested_url": url, "status_code": resp.status_code, "response_data": data})
+    return jsonify({"url": url, "status": resp.status_code, "response": data})
 
 # Export the Flask app for Vercel
 app.debug = True
